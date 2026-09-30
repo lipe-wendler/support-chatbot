@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IconButton } from "@/components/ui/IconButton";
 import { createSampleConversations } from "@/lib/conversas-exemplo";
 import { createId } from "@/lib/create-id";
-import { normalizeText } from "@/lib/normalize-text";
+import { matchesSearch, toSearchTerms } from "@/lib/search-conversations";
 import { suggestConversationTitle } from "@/lib/suggest-title";
 import type { Conversation, Message, MessageRole } from "@/lib/types";
 import { useNow } from "@/lib/use-now";
@@ -86,13 +86,11 @@ export function ChatApp() {
     conversations.find((conversation) => conversation.id === activeConversationId) ??
     conversations[0];
 
-  // Busca pelo título, sem diferenciar maiúsculas e acentos
-  const normalizedQuery = isSearchOpen ? normalizeText(searchQuery) : "";
-  const visibleConversations = normalizedQuery
-    ? conversations.filter((conversation) =>
-        normalizeText(conversation.title).includes(normalizedQuery),
-      )
-    : conversations;
+  // Busca por assunto, tipo, data e mensagens, sem diferenciar maiúsculas e acentos
+  const searchTerms = isSearchOpen ? toSearchTerms(searchQuery) : [];
+  const visibleConversations = conversations.filter((conversation) =>
+    matchesSearch(conversation, searchTerms, now),
+  );
 
   // Cancela respostas pendentes se a tela for desmontada
   useEffect(() => {

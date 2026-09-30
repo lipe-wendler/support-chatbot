@@ -9,7 +9,8 @@ interface ConversationSearchProps {
   onClose: () => void;
 }
 
-// Campo de busca de conversas. Aparece ao clicar na lupa e filtra a lista enquanto a pessoa digita.
+// Campo de busca de conversas. Aparece ao clicar na lupa e filtra a lista enquanto a pessoa digita,
+// procurando no assunto, no tipo de solicitação, nas datas e no texto das mensagens.
 // Esc ou o botão de fechar encerram a busca.
 export function ConversationSearch({ query, onQueryChange, onClose }: ConversationSearchProps) {
   const inputId = useId();
@@ -40,7 +41,7 @@ export function ConversationSearch({ query, onQueryChange, onClose }: Conversati
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Buscar conversas"
+        placeholder="Assunto, tipo, data ou mensagem"
         autoComplete="off"
         className="h-9 w-full rounded-sm border border-line-strong bg-field pr-10 pl-9 text-small text-ink transition-colors duration-150 placeholder:text-ink-muted hover:border-ink-muted [&::-webkit-search-cancel-button]:appearance-none"
       />

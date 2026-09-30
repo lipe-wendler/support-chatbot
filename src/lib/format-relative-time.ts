@@ -23,6 +23,11 @@ export function formatRelativeTime(timestamp: number, now: number): string {
   return dateFormatter.format(timestamp);
 }
 
+/** Data no formato DD/MM/AAAA. */
+export function formatDate(timestamp: number): string {
+  return dateFormatter.format(timestamp);
+}
+
 /** Horário no formato 14:05. */
 export function formatClockTime(timestamp: number): string {
   return clockFormatter.format(timestamp);
