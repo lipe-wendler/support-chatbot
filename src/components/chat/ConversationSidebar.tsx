@@ -31,7 +31,7 @@ export function ConversationSidebar({
           <Wordmark />
           {headerAction}
         </div>
-        <Button variant="outline" iconLeft="plus" onClick={onNewConversation} className="w-full">
+        <Button variant="primary" iconLeft="plus" onClick={onNewConversation} className="w-full">
           Nova conversa
         </Button>
       </div>

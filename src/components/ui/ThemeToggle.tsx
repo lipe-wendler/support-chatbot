@@ -41,6 +41,7 @@ export function ThemeToggle() {
   return (
     <IconButton
       icon={isLight ? "moon" : "sun"}
+      size="sm"
       label={isLight ? "Ativar tema escuro" : "Ativar tema claro"}
       onClick={toggleTheme}
       disabled={theme === null}

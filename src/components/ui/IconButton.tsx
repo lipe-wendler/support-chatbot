@@ -8,6 +8,13 @@ const SIZE_CLASSES = {
   lg: "size-14",
 } as const;
 
+// No tamanho pequeno o ícone também diminui, para manter a proporção
+const ICON_SIZES = {
+  sm: "sm",
+  md: "md",
+  lg: "lg",
+} as const;
+
 interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> {
   icon: IconName;
   label: string;
@@ -30,7 +37,7 @@ export function IconButton({
       className={`inline-flex shrink-0 items-center justify-center rounded-pill border border-line-strong bg-transparent text-ink transition-colors duration-150 hover:border-ink ${SIZE_CLASSES[size]} ${className}`}
       {...rest}
     >
-      <Icon name={icon} />
+      <Icon name={icon} size={ICON_SIZES[size]} />
     </button>
   );
 }
