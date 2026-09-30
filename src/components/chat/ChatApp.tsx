@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IconButton } from "@/components/ui/IconButton";
 import { createSampleConversations } from "@/lib/conversas-exemplo";
 import { createId } from "@/lib/create-id";
+import { normalizeText } from "@/lib/normalize-text";
+import { suggestConversationTitle } from "@/lib/suggest-title";
 import type { Conversation, Message, MessageRole } from "@/lib/types";
 import { useNow } from "@/lib/use-now";
 import { ChatHeader } from "./ChatHeader";
@@ -18,7 +20,6 @@ const PLACEHOLDER_REPLY = "Ainda estou aprendendo a responder. No Dia 4 eu ganho
 const REPLY_DELAY_MS = 500;
 
 const NEW_CONVERSATION_TITLE = "Nova conversa";
-const TITLE_MAX_LENGTH = 60;
 const DRAWER_ID = "gaveta-conversas";
 // A partir desta largura a lista fica fixa na tela (breakpoint md do Tailwind)
 const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
@@ -37,12 +38,12 @@ function createEmptyConversation(): Conversation {
   };
 }
 
-// Título de uma conversa nova: o começo da primeira mensagem
-function titleFromMessage(text: string): string {
-  const singleLine = text.replace(/\s+/g, " ").trim();
-  return singleLine.length > TITLE_MAX_LENGTH
-    ? `${singleLine.slice(0, TITLE_MAX_LENGTH).trimEnd()}...`
-    : singleLine;
+// Quando o bot responde uma conversa ainda sem nome, ele dá o assunto com base
+// na primeira mensagem da pessoa
+function titleAfterReply(conversation: Conversation): string {
+  if (conversation.title !== NEW_CONVERSATION_TITLE) return conversation.title;
+  const firstUserMessage = conversation.messages.find((message) => message.role === "user");
+  return firstUserMessage ? suggestConversationTitle(firstUserMessage.content) : conversation.title;
 }
 
 // Acrescenta uma mensagem e leva a conversa para o topo da lista
@@ -54,10 +55,9 @@ function appendMessage(
   const target = conversations.find((conversation) => conversation.id === conversationId);
   if (!target) return conversations;
 
-  const isFirstMessage = target.messages.length === 0;
   const updated: Conversation = {
     ...target,
-    title: isFirstMessage && message.role === "user" ? titleFromMessage(message.content) : target.title,
+    title: message.role === "assistant" ? titleAfterReply(target) : target.title,
     messages: [...target.messages, message],
     updatedAt: message.createdAt,
   };
@@ -74,6 +74,8 @@ export function ChatApp() {
     () => conversations[0]?.id ?? "",
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const now = useNow();
 
   const composerRef = useRef<HTMLTextAreaElement>(null);
@@ -83,6 +85,14 @@ export function ChatApp() {
   const activeConversation =
     conversations.find((conversation) => conversation.id === activeConversationId) ??
     conversations[0];
+
+  // Busca pelo título, sem diferenciar maiúsculas e acentos
+  const normalizedQuery = isSearchOpen ? normalizeText(searchQuery) : "";
+  const visibleConversations = normalizedQuery
+    ? conversations.filter((conversation) =>
+        normalizeText(conversation.title).includes(normalizedQuery),
+      )
+    : conversations;
 
   // Cancela respostas pendentes se a tela for desmontada
   useEffect(() => {
@@ -133,8 +143,15 @@ export function ChatApp() {
     setIsDrawerOpen(false);
   }
 
+  function closeSearch() {
+    setIsSearchOpen(false);
+    setSearchQuery("");
+  }
+
   function startNewConversation() {
     const conversation = createEmptyConversation();
+    // A conversa nova sempre aparece na lista, então a busca é encerrada
+    closeSearch();
     setConversations((current) => [conversation, ...current]);
     setActiveConversationId(conversation.id);
     setIsDrawerOpen(false);
@@ -142,11 +159,16 @@ export function ChatApp() {
   }
 
   const sidebarProps = {
-    conversations,
+    conversations: visibleConversations,
     activeConversationId: activeConversation?.id ?? "",
     now,
     onSelect: selectConversation,
     onNewConversation: startNewConversation,
+    isSearchOpen,
+    searchQuery,
+    onSearchOpen: () => setIsSearchOpen(true),
+    onSearchQueryChange: setSearchQuery,
+    onSearchClose: closeSearch,
   };
 
   return (

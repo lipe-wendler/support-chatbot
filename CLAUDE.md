@@ -38,6 +38,17 @@ estrutura previsível.
 - Nunca colocar chaves, senhas ou tokens no código. Use variáveis de ambiente
   (`.env.local`, que não vai para o Git).
 
+## Fluxo de Git
+
+- Nunca commitar direto na `main`. Cada alteração é feita numa branch própria,
+  criada a partir da `main` atualizada.
+- Nome da branch: `tipo/descricao-curta-em-ingles`, com os tipos do Conventional
+  Commits (`feat`, `fix`, `style`, `refactor`, `docs`, `chore`, `test`).
+  Ex.: `feat/conversation-search`.
+- Commits no formato Conventional Commits (`tipo(escopo): descrição`), um por assunto.
+- Ordem: branch, commits, preview e testes, Pull Request para a `main`, merge só
+  depois da aprovação de quem pediu a mudança.
+
 ## Comandos
 
 - `npm run dev`: servidor de desenvolvimento.

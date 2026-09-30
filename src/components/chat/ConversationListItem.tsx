@@ -10,6 +10,9 @@ interface ConversationListItemProps {
   onSelect: (conversationId: string) => void;
 }
 
+// Item da lista: assunto do chamado e data da última atividade; embaixo, a última mensagem
+// e, à direita, a etiqueta da categoria. Assunto e mensagem ocupam uma linha cada,
+// com "..." quando não cabem.
 export function ConversationListItem({
   conversation,
   isActive,
@@ -17,7 +20,7 @@ export function ConversationListItem({
   onSelect,
 }: ConversationListItemProps) {
   const lastMessage = conversation.messages.at(-1);
-  const preview = lastMessage?.content ?? "Conversa sem mensagens";
+  const preview = lastMessage?.content ?? "Nenhuma mensagem ainda";
 
   return (
     <li>
@@ -25,29 +28,25 @@ export function ConversationListItem({
         type="button"
         onClick={() => onSelect(conversation.id)}
         aria-current={isActive ? "true" : undefined}
-        className={`flex w-full flex-col gap-1 rounded-md border px-3 py-3 text-left transition-colors duration-150 ${
-          isActive
-            ? "border-line-strong bg-surface-raised"
-            : "border-transparent hover:bg-surface-raised"
+        className={`flex w-full flex-col gap-1 rounded-md px-3 py-3 text-left transition-colors duration-150 ${
+          isActive ? "bg-accent/15" : "hover:bg-surface-raised"
         }`}
       >
-        <span className="flex w-full items-baseline justify-between gap-3">
-          <span className="truncate text-label text-ink">{conversation.customerName}</span>
+        <span className="flex w-full items-baseline gap-3">
+          <span className="min-w-0 flex-1 truncate text-label text-ink">{conversation.title}</span>
           {now !== null ? (
             <time
               dateTime={new Date(conversation.updatedAt).toISOString()}
-              className="shrink-0 font-mono text-meta text-ink-muted"
+              className="shrink-0 font-mono text-meta whitespace-nowrap text-ink-muted"
             >
               {formatRelativeTime(conversation.updatedAt, now)}
             </time>
           ) : null}
         </span>
-        <span className="line-clamp-1 text-small text-ink-muted">{preview}</span>
-        {conversation.category ? (
-          <span className="mt-1 flex">
-            <Tag size="sm" category={conversation.category} />
-          </span>
-        ) : null}
+        <span className="flex w-full items-center gap-3">
+          <span className="min-w-0 flex-1 truncate text-small text-ink-muted">{preview}</span>
+          {conversation.category ? <Tag size="sm" category={conversation.category} /> : null}
+        </span>
       </button>
     </li>
   );
