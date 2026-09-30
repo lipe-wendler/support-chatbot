@@ -41,7 +41,7 @@ export function ConversationSearch({ query, onQueryChange, onClose }: Conversati
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Assunto, tipo, data ou mensagem"
+        placeholder="Assunto, tipo, data ou texto"
         autoComplete="off"
         className="h-9 w-full rounded-sm border border-line-strong bg-field pr-10 pl-9 text-small text-ink transition-colors duration-150 placeholder:text-ink-muted hover:border-ink-muted [&::-webkit-search-cancel-button]:appearance-none"
       />

@@ -46,16 +46,26 @@ export function matchesSearch(
 }
 
 /**
- * Mensagem mais recente que contém algum dos termos, para mostrar na prévia
- * da lista durante a busca. Sem termos ou sem mensagem compatível, devolve undefined.
+ * Mensagem que melhor combina com a busca, para mostrar na prévia da lista:
+ * a que contém mais termos e, no empate, a mais recente.
+ * Sem termos ou sem mensagem compatível, devolve undefined.
  */
 export function findMatchingMessage(
   conversation: Conversation,
   terms: string[],
 ): Message | undefined {
-  if (terms.length === 0) return undefined;
-  return conversation.messages.findLast((message) => {
+  let best: Message | undefined;
+  let bestScore = 0;
+
+  for (const message of conversation.messages) {
     const content = normalizeText(message.content);
-    return terms.some((term) => content.includes(term));
-  });
+    const score = terms.filter((term) => content.includes(term)).length;
+    // ">=" faz a mensagem mais recente vencer o empate
+    if (score > 0 && score >= bestScore) {
+      best = message;
+      bestScore = score;
+    }
+  }
+
+  return best;
 }
