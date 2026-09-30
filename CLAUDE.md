@@ -21,6 +21,7 @@ estrutura previsível.
 - Textos exibidos na tela: português do Brasil.
 - Código (variáveis, funções, tipos, arquivos): inglês.
 - Comentários no código: português.
+- Branches (descrição), commits e Pull Requests: português do Brasil.
 
 ## Frontend
 
@@ -40,14 +41,21 @@ estrutura previsível.
 
 ## Fluxo de Git
 
-- Nunca commitar direto na `main`. Cada alteração é feita numa branch própria,
-  criada a partir da `main` atualizada.
-- Nome da branch: `tipo/descricao-curta-em-ingles`, com os tipos do Conventional
-  Commits (`feat`, `fix`, `style`, `refactor`, `docs`, `chore`, `test`).
-  Ex.: `feat/conversation-search`.
-- Commits no formato Conventional Commits (`tipo(escopo): descrição`), um por assunto.
-- Ordem: branch, commits, preview e testes, Pull Request para a `main`, merge só
-  depois da aprovação de quem pediu a mudança.
+O fluxo completo está na skill `.claude/skills/git-workflow/SKILL.md`. Leia antes
+de criar branch, commitar, abrir PR ou fazer merge. Resumo:
+
+- Nunca commitar direto na `main`. Uma branch por tarefa, criada a partir da
+  `main` atualizada.
+- Nome da branch: `tipo/descricao-em-portugues`, sem acento, em kebab-case, com
+  os tipos do Conventional Commits (`feat`, `fix`, `docs`, `style`, `refactor`,
+  `perf`, `test`, `build`, `ci`, `chore`, `revert`). Ex.: `feat/busca-de-conversas`.
+- Commits no formato Conventional Commits 1.0.0 (`tipo(escopo): descrição`), em
+  português, um por assunto.
+- Pull Request para a `main` com título no mesmo formato dos commits e descrição
+  pelo template `.github/pull_request_template.md`.
+- Merge sempre por squash (nada de merge commit nem rebase merge), só depois da
+  aprovação de quem pediu a mudança.
+- Ordem: branch, commits, preview e testes, Pull Request, aprovação, squash merge.
 
 ## Comandos
 
