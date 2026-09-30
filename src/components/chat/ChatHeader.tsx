@@ -1,5 +1,6 @@
 import { IconButton } from "@/components/ui/IconButton";
 import { Tag } from "@/components/ui/Tag";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import type { Conversation } from "@/lib/types";
 
 interface ChatHeaderProps {
@@ -9,7 +10,8 @@ interface ChatHeaderProps {
   onOpenDrawer: () => void;
 }
 
-// Topo da conversa aberta: botão da gaveta (só no celular), título e categoria
+// Topo da conversa aberta: botão da gaveta (só no celular), título, categoria
+// e, à direita, o botão de tema
 export function ChatHeader({ conversation, drawerId, isDrawerOpen, onOpenDrawer }: ChatHeaderProps) {
   return (
     <header className="flex min-h-18 items-center gap-3 border-b border-line bg-surface px-4 py-3 md:px-6">
@@ -32,6 +34,7 @@ export function ChatHeader({ conversation, drawerId, isDrawerOpen, onOpenDrawer 
           </span>
         ) : null}
       </div>
+      <ThemeToggle />
     </header>
   );
 }

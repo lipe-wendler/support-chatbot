@@ -2,7 +2,8 @@
 
 /*
   Tokens do design system F.Wendler.
-  O tema escuro é o padrão; o claro entra quando o sistema do usuário pede.
+  O tema escuro é o padrão. O claro entra com data-theme="light" no <html>,
+  definido pelo script de tema do layout (escolha salva ou preferência do sistema).
   Componentes usam só os nomes semânticos (bg, surface, ink...), nunca hex direto.
 */
 :root {
@@ -43,43 +44,41 @@
   --cat-feature-fg: #f59ad0;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
+:root[data-theme="light"] {
+  color-scheme: light;
 
-    --bg: #f5f5f5;
-    --surface: #ffffff;
-    --surface-raised: #eeeeee;
-    --field: #ffffff;
-    --line: #d9d9d9;
-    --line-strong: #858585;
-    --ink: #1f1f1f;
-    --ink-muted: #6b6b6b;
-    --accent: #f4c430;
-    --accent-hover: #e8b720;
-    --on-accent: #0b0b0b;
-    --accent-text: #8a6500;
-    --accent-soft: #fff4cc;
-    --focus: #1f1f1f;
-    --success: #1e7a46;
-    --danger: #c0362c;
-    --shadow-card: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.06);
-    --shadow-pop: 0 12px 32px rgba(15, 15, 15, 0.12);
-    --shadow-glow: 0 0 0 4px rgba(244, 196, 48, 0.28);
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --surface-raised: #eeeeee;
+  --field: #ffffff;
+  --line: #d9d9d9;
+  --line-strong: #858585;
+  --ink: #1f1f1f;
+  --ink-muted: #6b6b6b;
+  --accent: #f4c430;
+  --accent-hover: #e8b720;
+  --on-accent: #0b0b0b;
+  --accent-text: #8a6500;
+  --accent-soft: #fff4cc;
+  --focus: #1f1f1f;
+  --success: #1e7a46;
+  --danger: #c0362c;
+  --shadow-card: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.06);
+  --shadow-pop: 0 12px 32px rgba(15, 15, 15, 0.12);
+  --shadow-glow: 0 0 0 4px rgba(244, 196, 48, 0.28);
 
-    --cat-acesso-bg: #fde8e6;
-    --cat-acesso-fg: #a8261b;
-    --cat-dados-bg: #e3effc;
-    --cat-dados-fg: #1457a8;
-    --cat-integracao-bg: #efe7fc;
-    --cat-integracao-fg: #6533b5;
-    --cat-duvida-bg: #dff5ee;
-    --cat-duvida-fg: #106b55;
-    --cat-bug-bg: #fdebdc;
-    --cat-bug-fg: #9a4b00;
-    --cat-feature-bg: #fce6f2;
-    --cat-feature-fg: #a2206e;
-  }
+  --cat-acesso-bg: #fde8e6;
+  --cat-acesso-fg: #a8261b;
+  --cat-dados-bg: #e3effc;
+  --cat-dados-fg: #1457a8;
+  --cat-integracao-bg: #efe7fc;
+  --cat-integracao-fg: #6533b5;
+  --cat-duvida-bg: #dff5ee;
+  --cat-duvida-fg: #106b55;
+  --cat-bug-bg: #fdebdc;
+  --cat-bug-fg: #9a4b00;
+  --cat-feature-bg: #fce6f2;
+  --cat-feature-fg: #a2206e;
 }
 
 /* Tokens expostos como classes do Tailwind (ex.: bg-surface, text-ink-muted, rounded-pill) */

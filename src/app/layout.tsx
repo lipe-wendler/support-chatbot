@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 // Fontes do design system F.Wendler, servidas pelo próprio projeto
@@ -44,7 +45,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${urbanist.variable} ${dmSans.variable} ${spaceMono.variable}`}>
+    // suppressHydrationWarning: o script de tema muda o data-theme do <html> antes do React carregar
+    <html
+      lang="pt-BR"
+      className={`${urbanist.variable} ${dmSans.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );
