@@ -1,5 +1,6 @@
 import { Tag } from "@/components/ui/Tag";
 import { formatRelativeTime } from "@/lib/format-relative-time";
+import { findMatchingMessage } from "@/lib/search-conversations";
 import type { Conversation } from "@/lib/types";
 
 interface ConversationListItemProps {
@@ -8,9 +9,12 @@ interface ConversationListItemProps {
   /** Hora atual; null até a página montar no navegador */
   now: number | null;
   onSelect: (conversationId: string) => void;
+  /** Termos da busca ativa; com eles, a prévia mostra a mensagem que combinou */
+  searchTerms: string[];
 }
 
 // Item da lista: assunto do chamado e data da última atividade; embaixo, a última mensagem
+// (durante a busca, a mensagem que combinou com o que foi digitado)
 // e, à direita, a etiqueta da categoria. Assunto e mensagem ocupam uma linha cada,
 // com "..." quando não cabem.
 export function ConversationListItem({
@@ -18,9 +22,11 @@ export function ConversationListItem({
   isActive,
   now,
   onSelect,
+  searchTerms,
 }: ConversationListItemProps) {
-  const lastMessage = conversation.messages.at(-1);
-  const preview = lastMessage?.content ?? "Nenhuma mensagem ainda";
+  const previewMessage =
+    findMatchingMessage(conversation, searchTerms) ?? conversation.messages.at(-1);
+  const preview = previewMessage?.content ?? "Nenhuma mensagem ainda";
 
   return (
     <li>
