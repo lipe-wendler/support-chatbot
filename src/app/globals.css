@@ -1,26 +1,183 @@
 @import "tailwindcss";
 
+/*
+  Tokens do design system F.Wendler.
+  O tema escuro é o padrão; o claro entra quando o sistema do usuário pede.
+  Componentes usam só os nomes semânticos (bg, surface, ink...), nunca hex direto.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  --bg: #0b0b0b;
+  --surface: #131313;
+  --surface-raised: #1e1e1e;
+  --field: #1e1e1e;
+  --line: #363636;
+  --line-strong: #6b6b6b;
+  --ink: #f5f5f5;
+  --ink-muted: #a3a3a3;
+  --accent: #ffc629;
+  --accent-hover: #ffd452;
+  --on-accent: #0b0b0b;
+  --accent-text: #ffc629;
+  --accent-soft: #2a2206;
+  --focus: #ffc629;
+  --success: #5ccb8a;
+  --danger: #ff7a6b;
+  --shadow-card: none;
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 4px rgba(255, 198, 41, 0.16);
+
+  /* Cores das categorias (extensão do DS): fundo suave + texto forte, 4,5:1 ou mais */
+  --cat-acesso-bg: #3a1714;
+  --cat-acesso-fg: #ff9a8f;
+  --cat-dados-bg: #0f2740;
+  --cat-dados-fg: #8ec5ff;
+  --cat-integracao-bg: #26183f;
+  --cat-integracao-fg: #c7a6ff;
+  --cat-duvida-bg: #0e2e26;
+  --cat-duvida-fg: #6fd6b8;
+  --cat-bug-bg: #3a2210;
+  --cat-bug-fg: #ffb36b;
+  --cat-feature-bg: #3a1530;
+  --cat-feature-fg: #f59ad0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: light;
+
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --surface-raised: #eeeeee;
+    --field: #ffffff;
+    --line: #d9d9d9;
+    --line-strong: #858585;
+    --ink: #1f1f1f;
+    --ink-muted: #6b6b6b;
+    --accent: #f4c430;
+    --accent-hover: #e8b720;
+    --on-accent: #0b0b0b;
+    --accent-text: #8a6500;
+    --accent-soft: #fff4cc;
+    --focus: #1f1f1f;
+    --success: #1e7a46;
+    --danger: #c0362c;
+    --shadow-card: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.06);
+    --shadow-pop: 0 12px 32px rgba(15, 15, 15, 0.12);
+    --shadow-glow: 0 0 0 4px rgba(244, 196, 48, 0.28);
+
+    --cat-acesso-bg: #fde8e6;
+    --cat-acesso-fg: #a8261b;
+    --cat-dados-bg: #e3effc;
+    --cat-dados-fg: #1457a8;
+    --cat-integracao-bg: #efe7fc;
+    --cat-integracao-fg: #6533b5;
+    --cat-duvida-bg: #dff5ee;
+    --cat-duvida-fg: #106b55;
+    --cat-bug-bg: #fdebdc;
+    --cat-bug-fg: #9a4b00;
+    --cat-feature-bg: #fce6f2;
+    --cat-feature-fg: #a2206e;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tokens expostos como classes do Tailwind (ex.: bg-surface, text-ink-muted, rounded-pill) */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-field: var(--field);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-focus: var(--focus);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+
+  --color-cat-acesso-bg: var(--cat-acesso-bg);
+  --color-cat-acesso-fg: var(--cat-acesso-fg);
+  --color-cat-dados-bg: var(--cat-dados-bg);
+  --color-cat-dados-fg: var(--cat-dados-fg);
+  --color-cat-integracao-bg: var(--cat-integracao-bg);
+  --color-cat-integracao-fg: var(--cat-integracao-fg);
+  --color-cat-duvida-bg: var(--cat-duvida-bg);
+  --color-cat-duvida-fg: var(--cat-duvida-fg);
+  --color-cat-bug-bg: var(--cat-bug-bg);
+  --color-cat-bug-fg: var(--cat-bug-fg);
+  --color-cat-feature-bg: var(--cat-feature-bg);
+  --color-cat-feature-fg: var(--cat-feature-fg);
+
+  /* Famílias: Urbanist (títulos), DM Sans (interface), Space Mono (rótulos técnicos) */
+  --font-display: var(--font-urbanist), "DM Sans", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, Menlo, Consolas, monospace;
+}
+
+@theme {
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Estilos de texto do DS: text-h3, text-body, text-small, text-label, text-caption, text-eyebrow, text-meta */
+  --text-h2: 32px;
+  --text-h2--line-height: 40px;
+  --text-h2--font-weight: 600;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: 24px;
+  --text-h3--line-height: 32px;
+  --text-h3--font-weight: 600;
+  --text-h3--letter-spacing: -0.01em;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-small: 14px;
+  --text-small--line-height: 20px;
+  --text-label: 14px;
+  --text-label--line-height: 20px;
+  --text-label--font-weight: 600;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-eyebrow: 12px;
+  --text-eyebrow--line-height: 16px;
+  --text-eyebrow--letter-spacing: 0.16em;
+  --text-meta: 12px;
+  --text-meta--line-height: 16px;
+  --text-meta--letter-spacing: 0.02em;
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Anel de foco do DS: 2px sólido com 2px de afastamento, visível em qualquer superfície */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Quem pede menos movimento não recebe transições nem rolagem suave */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
 }
