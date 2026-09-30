@@ -4,6 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { Wordmark } from "@/components/ui/Wordmark";
+import { toSearchTerms } from "@/lib/search-conversations";
 import type { Conversation } from "@/lib/types";
 import { ConversationListItem } from "./ConversationListItem";
 import { ConversationSearch } from "./ConversationSearch";
@@ -46,7 +47,8 @@ export function ConversationSidebar({
 }: ConversationSidebarProps) {
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const shouldFocusSearchButtonRef = useRef(false);
-  const isFiltering = isSearchOpen && searchQuery.trim().length > 0;
+  const searchTerms = isSearchOpen ? toSearchTerms(searchQuery) : [];
+  const isFiltering = searchTerms.length > 0;
 
   // Quando a pessoa fecha a busca, o foco volta para a lupa
   useEffect(() => {
@@ -111,6 +113,7 @@ export function ConversationSidebar({
             isActive={conversation.id === activeConversationId}
             now={now}
             onSelect={onSelect}
+            searchTerms={searchTerms}
           />
         ))}
       </ul>
