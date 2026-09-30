@@ -32,7 +32,7 @@ export function ConversationSearch({ query, onQueryChange, onClose }: Conversati
       <label htmlFor={inputId} className="sr-only">
         Buscar conversas
       </label>
-      <Icon name="search" className="pointer-events-none absolute left-3 text-ink-muted" />
+      <Icon name="search" size="sm" className="pointer-events-none absolute left-3 text-ink-muted" />
       <input
         id={inputId}
         ref={inputRef}
@@ -42,14 +42,14 @@ export function ConversationSearch({ query, onQueryChange, onClose }: Conversati
         onKeyDown={handleKeyDown}
         placeholder="Buscar conversas"
         autoComplete="off"
-        className="h-11 w-full rounded-sm border border-line-strong bg-field pr-12 pl-10 text-small text-ink transition-colors duration-150 placeholder:text-ink-muted hover:border-ink-muted [&::-webkit-search-cancel-button]:appearance-none"
+        className="h-9 w-full rounded-sm border border-line-strong bg-field pr-10 pl-9 text-small text-ink transition-colors duration-150 placeholder:text-ink-muted hover:border-ink-muted [&::-webkit-search-cancel-button]:appearance-none"
       />
       <button
         type="button"
         onClick={onClose}
         aria-label="Fechar busca"
         title="Fechar busca"
-        className="absolute right-1 inline-flex size-9 items-center justify-center rounded-pill text-ink-muted transition-colors duration-150 hover:bg-surface-raised hover:text-ink"
+        className="absolute right-1 inline-flex size-7 items-center justify-center rounded-pill text-ink-muted transition-colors duration-150 hover:bg-surface-raised hover:text-ink"
       >
         <Icon name="close" size="sm" />
       </button>

@@ -78,10 +78,17 @@ export function ConversationSidebar({
             <IconButton
               ref={searchButtonRef}
               icon="search"
+              size="sm"
               label="Buscar conversas"
               onClick={onSearchOpen}
             />
-            <Button variant="primary" iconLeft="plus" onClick={onNewConversation} className="flex-1">
+            <Button
+              variant="primary"
+              size="sm"
+              iconLeft="plus"
+              onClick={onNewConversation}
+              className="flex-1"
+            >
               Nova conversa
             </Button>
           </div>
