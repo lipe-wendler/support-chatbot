@@ -14,7 +14,7 @@ interface EmptyStateProps {
 // As sugestões são frases longas, por isso usam cantos de card (radius-md) em vez de pílula.
 export function EmptyState({ onSuggestion }: EmptyStateProps) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-8">
+    <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-4 py-8">
       <div className="flex w-full max-w-2xl flex-col items-center gap-6">
         <h3 className="text-center font-display text-h3">Como posso ajudar?</h3>
         <ul aria-label="Sugestões de mensagem" className="grid w-full gap-3 sm:grid-cols-2">

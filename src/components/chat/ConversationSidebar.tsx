@@ -105,7 +105,7 @@ export function ConversationSidebar({
       {isFiltering && conversations.length === 0 ? (
         <p className="px-4 py-2 text-small text-ink-muted">Nenhuma conversa encontrada.</p>
       ) : null}
-      <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2 pb-4">
+      <ul className="relative flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2 pb-4">
         {conversations.map((conversation) => (
           <ConversationListItem
             key={conversation.id}

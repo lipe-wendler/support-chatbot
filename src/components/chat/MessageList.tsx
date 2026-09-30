@@ -12,6 +12,8 @@ interface MessageListProps {
 
 // Lista de mensagens. O role="log" faz o leitor de tela anunciar as mensagens novas.
 // A área rolável recebe foco pelo teclado para dar para rolar com as setas.
+// "relative" mantém os textos ocultos para leitores de tela (sr-only, posição absoluta)
+// dentro da área de rolagem; sem ele, cada mensagem nova esticava a página inteira.
 export function MessageList({ messages, customerName, now }: MessageListProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +29,7 @@ export function MessageList({ messages, customerName, now }: MessageListProps) {
       role="log"
       aria-label="Mensagens da conversa"
       tabIndex={0}
-      className="min-h-0 flex-1 overflow-y-auto focus-visible:outline-offset-[-2px]"
+      className="relative min-h-0 flex-1 overflow-y-auto focus-visible:outline-offset-[-2px]"
     >
       <ol className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-6 md:px-6">
         {messages.map((message) => (
