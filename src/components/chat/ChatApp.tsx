@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IconButton } from "@/components/ui/IconButton";
 import { createSampleConversations } from "@/lib/conversas-exemplo";
 import { createId } from "@/lib/create-id";
+import { normalizeText } from "@/lib/normalize-text";
 import type { Conversation, Message, MessageRole } from "@/lib/types";
 import { useNow } from "@/lib/use-now";
 import { ChatHeader } from "./ChatHeader";
@@ -74,6 +75,8 @@ export function ChatApp() {
     () => conversations[0]?.id ?? "",
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const now = useNow();
 
   const composerRef = useRef<HTMLTextAreaElement>(null);
@@ -83,6 +86,14 @@ export function ChatApp() {
   const activeConversation =
     conversations.find((conversation) => conversation.id === activeConversationId) ??
     conversations[0];
+
+  // Busca pelo título, sem diferenciar maiúsculas e acentos
+  const normalizedQuery = isSearchOpen ? normalizeText(searchQuery) : "";
+  const visibleConversations = normalizedQuery
+    ? conversations.filter((conversation) =>
+        normalizeText(conversation.title).includes(normalizedQuery),
+      )
+    : conversations;
 
   // Cancela respostas pendentes se a tela for desmontada
   useEffect(() => {
@@ -133,8 +144,15 @@ export function ChatApp() {
     setIsDrawerOpen(false);
   }
 
+  function closeSearch() {
+    setIsSearchOpen(false);
+    setSearchQuery("");
+  }
+
   function startNewConversation() {
     const conversation = createEmptyConversation();
+    // A conversa nova sempre aparece na lista, então a busca é encerrada
+    closeSearch();
     setConversations((current) => [conversation, ...current]);
     setActiveConversationId(conversation.id);
     setIsDrawerOpen(false);
@@ -142,11 +160,16 @@ export function ChatApp() {
   }
 
   const sidebarProps = {
-    conversations,
+    conversations: visibleConversations,
     activeConversationId: activeConversation?.id ?? "",
     now,
     onSelect: selectConversation,
     onNewConversation: startNewConversation,
+    isSearchOpen,
+    searchQuery,
+    onSearchOpen: () => setIsSearchOpen(true),
+    onSearchQueryChange: setSearchQuery,
+    onSearchClose: closeSearch,
   };
 
   return (

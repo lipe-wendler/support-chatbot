@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, Ref } from "react";
 import { Icon, type IconName } from "./Icon";
 
 // Botão circular só com ícone. O label é obrigatório: vira o nome acessível e a dica.
@@ -19,6 +19,7 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
   icon: IconName;
   label: string;
   size?: keyof typeof SIZE_CLASSES;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export function IconButton({
