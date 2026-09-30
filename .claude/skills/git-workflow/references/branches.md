@@ -43,6 +43,35 @@ git switch -c feat/filtro-por-categoria
 - Uma tarefa por branch. Se surgir outra tarefa no meio do caminho, abra outra branch a partir da `main`.
 - Nunca commite direto na `main`.
 
+## Branch automática da sessão
+
+No Claude Code na web, cada sessão nasce numa branch `claude/<nome-aleatorio>` criada pela plataforma antes de a tarefa ser conhecida. O fluxo é:
+
+1. Planejamento (modo plan), ainda na branch automática, sem editar arquivos nem commitar.
+2. Plano aprovado: o plano já descreve a tarefa, então o nome sai dele.
+3. Antes da primeira edição:
+
+   ```bash
+   git switch main
+   git pull origin main
+   git switch -c <tipo>/<descricao>
+   ```
+
+4. Commits, push e PR a partir da branch da tarefa. A branch automática nunca recebe push, então não fica branch vazia no GitHub.
+
+Se por engano já houver commits na branch automática, `git switch -c <tipo>/<descricao>` cria a branch da tarefa com esses commits; siga dela.
+
+Exemplos de tarefa e nome:
+
+| Tarefa pedida                                          | Branch                              |
+|--------------------------------------------------------|-------------------------------------|
+| Adicionar filtro por categoria na lista de conversas   | `feat/filtro-por-categoria`         |
+| Corrigir a rolagem da lista de conversas               | `fix/rolagem-da-lista`              |
+| Deixar o botão de enviar menor                         | `style/botao-de-enviar-menor`       |
+| Separar o componente de mensagem em arquivos menores   | `refactor/componente-de-mensagem`   |
+| Documentar a API do TimeTrack                          | `docs/api-do-timetrack`             |
+| Atualizar o Next.js                                    | `build/atualiza-nextjs`             |
+
 ## Manter a branch atualizada com a main
 
 Se a `main` andou enquanto a tarefa estava aberta, traga as mudanças com merge:
