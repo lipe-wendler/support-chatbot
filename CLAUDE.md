@@ -55,7 +55,12 @@ de criar branch, commitar, abrir PR ou fazer merge. Resumo:
   pelo template `.github/pull_request_template.md`.
 - Merge sempre por squash (nada de merge commit nem rebase merge), só depois da
   aprovação de quem pediu a mudança.
-- Ordem: branch, commits, preview e testes, Pull Request, aprovação, squash merge.
+- Ordem: plano aprovado, branch, commits, preview e testes, Pull Request,
+  aprovação, squash merge.
+- Em sessões do Claude Code na web, ignore a branch automática `claude/...`:
+  depois do plano aprovado, crie a branch da tarefa no padrão e faça commits e
+  push nela (permissão explícita do dono do repositório). O hook
+  `.claude/hooks/check-task-branch.sh` bloqueia commit e push fora do padrão.
 
 ## Comandos
 
